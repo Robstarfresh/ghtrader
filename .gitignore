@@ -1,7 +1,51 @@
-backend/app/**/__pycache__
-backend/tests/__pycache__
-**/__pycache__/
-*.pyc
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Node / Next.js
 node_modules/
 .next/
-*.env
+out/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Docker
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Database
+*.db
+*.sqlite
+
+# Alembic
+backend/alembic/versions/*.py
