@@ -26,7 +26,7 @@ class BacktestResult:
     """Results from a completed backtest run."""
 
     trades: list[dict] = field(default_factory=list)
-    metrics: Dict = field(default_factory=dict)
+    metrics: dict = field(default_factory=dict)
     equity_curve: list[dict] = field(default_factory=list)
 
 def _compute_metrics(

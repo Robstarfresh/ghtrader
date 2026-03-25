@@ -73,7 +73,7 @@ class KrakenClient:
         if self._client and not self._client.is_closed:
             await self._client.aclose()
 
-    async def _request(self, path: str, params: dict[str, Any], retries: int = 3) -> Dict:
+    async def _request(self, path: str, params: dict[str, Any], retries: int = 3) -> dict:
         """Perform a GET request with exponential back-off on failure."""
         client = await self._get_client()
         delay = 1.0
