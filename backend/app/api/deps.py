@@ -11,7 +11,6 @@ from app.database import get_db
 # Re-export the standard DB dependency so routes only need to import from deps.
 DbSession = AsyncGenerator[AsyncSession, None]
 
-
 async def get_session(session: AsyncSession = Depends(get_db)) -> AsyncSession:
     """Yield an async SQLAlchemy session."""
     return session

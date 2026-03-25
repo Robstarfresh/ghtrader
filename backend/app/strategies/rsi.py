@@ -9,7 +9,6 @@ import pandas as pd
 from app.indicators.technical import compute_rsi
 from app.strategies.base import Signal, Strategy, StrategyResult
 
-
 class RSIStrategy(Strategy):
     """Signal BUY when RSI crosses below oversold and starts rising.
 

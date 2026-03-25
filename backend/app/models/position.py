@@ -12,7 +12,6 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from app.database import Base
 
-
 class Position(Base):
     """Open or closed paper position."""
 

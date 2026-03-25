@@ -9,7 +9,6 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from app.database import Base
 
-
 class Candle(Base):
     """OHLCV candle data fetched from Kraken public API.
 

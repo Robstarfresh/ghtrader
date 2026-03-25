@@ -9,7 +9,6 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from app.database import Base
 
-
 class RiskEvent(Base):
     """Audit record for risk limit breaches.
 
@@ -29,7 +28,6 @@ class RiskEvent(Base):
 
     def __repr__(self) -> str:
         return f"<RiskEvent type={self.event_type} active={self.is_active}>"
-
 
 class AppSettings(Base):
     """Key-value store for runtime-adjustable application settings."""

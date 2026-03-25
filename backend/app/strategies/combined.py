@@ -4,12 +4,9 @@
 """
 from __future__ import annotations
 
-from typing import List, Tuple
-
 import pandas as pd
 
 from app.strategies.base import Signal, Strategy, StrategyResult
-
 
 class CombinedStrategy(Strategy):
     """Aggregate multiple strategies using a weighted voting scheme.
@@ -28,7 +25,7 @@ class CombinedStrategy(Strategy):
 
     def __init__(
         self,
-        strategies: List[Tuple[Strategy, float]],
+        strategies: list[tuple[Strategy, float]],
         threshold: float = 0.5,
     ) -> None:
         if not strategies:
@@ -49,7 +46,7 @@ class CombinedStrategy(Strategy):
             return StrategyResult(signal=Signal.HOLD, confidence=0.0, reason="zero_total_weight")
 
         weighted_score = 0.0
-        reasons: List[str] = []
+        reasons: list[str] = []
 
         for strategy, weight in self.strategies:
             if not strategy.is_applicable(df):

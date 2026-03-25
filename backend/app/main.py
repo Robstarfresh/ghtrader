@@ -14,7 +14,6 @@ from app.config import get_settings
 
 log = structlog.get_logger(__name__)
 
-
 def create_app() -> FastAPI:
     """Construct and configure the FastAPI application."""
     settings = get_settings()
@@ -54,6 +53,5 @@ def create_app() -> FastAPI:
         log.info("ghtrader_shutdown")
 
     return app
-
 
 app = create_app()

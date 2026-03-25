@@ -12,11 +12,9 @@ router = APIRouter()
 # These endpoints delegate to the singleton stored in app.state.
 _engine_ref = None  # populated by main.py startup event
 
-
 def set_engine(engine) -> None:
     global _engine_ref
     _engine_ref = engine
-
 
 @router.get("/status")
 async def engine_status() -> dict:
@@ -24,7 +22,6 @@ async def engine_status() -> dict:
     if _engine_ref is None:
         return {"running": False, "equity": None, "positions_count": 0}
     return _engine_ref.get_status()
-
 
 @router.post("/start")
 async def start_engine() -> dict:
@@ -36,7 +33,6 @@ async def start_engine() -> dict:
 
         asyncio.create_task(_engine_ref.start())
     return {"ok": True, "detail": "Engine start requested"}
-
 
 @router.post("/stop")
 async def stop_engine() -> dict:

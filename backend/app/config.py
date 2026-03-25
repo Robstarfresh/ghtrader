@@ -5,11 +5,9 @@
 from __future__ import annotations
 
 from functools import lru_cache
-from typing import List
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -55,9 +53,8 @@ class Settings(BaseSettings):
         return v.strip()
 
     @property
-    def tracked_pairs_list(self) -> List[str]:
+    def tracked_pairs_list(self) -> list[str]:
         return [p.strip() for p in self.TRACKED_PAIRS.split(",") if p.strip()]
-
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:

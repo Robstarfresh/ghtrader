@@ -13,7 +13,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
-
 class Backtest(Base):
     """A single backtest run configuration."""
 
@@ -43,7 +42,6 @@ class Backtest(Base):
     def __repr__(self) -> str:
         return f"<Backtest id={self.id} name={self.name} status={self.status}>"
 
-
 class BacktestMetrics(Base):
     """Aggregate performance metrics for a backtest run."""
 
@@ -71,7 +69,6 @@ class BacktestMetrics(Base):
     total_trades: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     backtest: Mapped["Backtest"] = relationship("Backtest", back_populates="metrics")
-
 
 class BacktestTrade(Base):
     """Individual round-trip trade recorded during a backtest."""

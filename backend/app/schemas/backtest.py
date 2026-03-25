@@ -2,10 +2,9 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel, ConfigDict
-
 
 class BacktestCreate(BaseModel):
     name: str
@@ -14,8 +13,7 @@ class BacktestCreate(BaseModel):
     timeframe: str = "1m"
     start_date: datetime
     end_date: datetime
-    config: Optional[Dict[str, Any]] = None
-
+    config: Optional[dict[str, Any]] = None
 
 class BacktestMetricsOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -33,7 +31,6 @@ class BacktestMetricsOut(BaseModel):
     exposure_pct: float
     total_trades: int
 
-
 class BacktestOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -44,7 +41,7 @@ class BacktestOut(BaseModel):
     timeframe: str
     start_date: datetime
     end_date: datetime
-    config: Optional[Dict[str, Any]] = None
+    config: Optional[dict[str, Any]] = None
     status: str
     created_at: datetime
     completed_at: Optional[datetime] = None

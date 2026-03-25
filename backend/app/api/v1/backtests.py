@@ -4,8 +4,6 @@
 """
 from __future__ import annotations
 
-from typing import List
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -15,7 +13,6 @@ from app.models.backtest import Backtest, BacktestMetrics, BacktestTrade
 from app.schemas.backtest import BacktestCreate, BacktestOut, BacktestMetricsOut
 
 router = APIRouter()
-
 
 @router.post("", response_model=BacktestOut, status_code=201)
 async def run_backtest(
@@ -33,18 +30,16 @@ async def run_backtest(
     await session.refresh(bt)
     return bt
 
-
-@router.get("", response_model=List[BacktestOut])
-async def list_backtests(session: AsyncSession = Depends(get_session)) -> List[BacktestOut]:
+@router.get("", response_model=list[BacktestOut])
+async def list_backtests(session: AsyncSession = Depends(get_session)) -> list[BacktestOut]:
     """List all backtest runs."""
     result = await session.execute(
         select(Backtest).order_by(Backtest.created_at.desc())
     )
     return list(result.scalars().all())
 
-
 @router.get("/leaderboard")
-async def leaderboard(session: AsyncSession = Depends(get_session)) -> List[dict]:
+async def leaderboard(session: AsyncSession = Depends(get_session)) -> list[dict]:
     """Return strategy performance comparison sorted by return_pct."""
     result = await session.execute(
         select(Backtest, BacktestMetrics)
@@ -68,7 +63,6 @@ async def leaderboard(session: AsyncSession = Depends(get_session)) -> List[dict
         for bt, m in rows
     ]
 
-
 @router.get("/{backtest_id}", response_model=BacktestOut)
 async def get_backtest(
     backtest_id: int,
@@ -81,12 +75,11 @@ async def get_backtest(
         raise HTTPException(status_code=404, detail="Backtest not found")
     return bt
 
-
 @router.get("/{backtest_id}/trades")
 async def get_backtest_trades(
     backtest_id: int,
     session: AsyncSession = Depends(get_session),
-) -> List[dict]:
+) -> list[dict]:
     """Return individual trades from a backtest run."""
     result = await session.execute(
         select(BacktestTrade)

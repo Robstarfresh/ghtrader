@@ -15,10 +15,8 @@ from sqlalchemy.orm import DeclarativeBase
 
 from app.config import get_settings
 
-
 class Base(DeclarativeBase):
     """Shared declarative base for all ORM models."""
-
 
 def _build_engine():
     settings = get_settings()
@@ -30,7 +28,6 @@ def _build_engine():
         max_overflow=20,
     )
 
-
 engine = _build_engine()
 
 AsyncSessionLocal = async_sessionmaker(
@@ -40,7 +37,6 @@ AsyncSessionLocal = async_sessionmaker(
     autocommit=False,
     autoflush=False,
 )
-
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
     """FastAPI dependency that yields an async database session."""

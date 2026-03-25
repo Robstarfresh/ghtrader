@@ -10,7 +10,6 @@ from app.api.v1.engine import _engine_ref
 
 router = APIRouter()
 
-
 @router.get("/summary")
 async def pnl_summary() -> dict:
     """Return balance, equity, daily PnL and total PnL from the paper broker."""
@@ -23,7 +22,6 @@ async def pnl_summary() -> dict:
             "mode": "paper_trading",
         }
     return _engine_ref.broker.get_pnl_summary()
-
 
 @router.get("/equity-curve")
 async def equity_curve() -> dict:

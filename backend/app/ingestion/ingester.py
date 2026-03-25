@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import asyncio
 from datetime import datetime, timedelta, timezone
-from typing import List, Optional
+from typing import Optional
 
 import structlog
 from sqlalchemy import select
@@ -19,7 +19,6 @@ from app.ingestion.kraken_client import KrakenClient, _to_interval
 from app.models.candle import Candle
 
 log = structlog.get_logger(__name__)
-
 
 def _row_to_candle(row: list, pair: str, timeframe: str) -> dict:
     """Convert a raw Kraken OHLC row to a Candle insert dict."""
@@ -37,10 +36,9 @@ def _row_to_candle(row: list, pair: str, timeframe: str) -> dict:
         "trades": int(trades) if trades else None,
     }
 
-
 async def upsert_candles(
     session: AsyncSession,
-    rows: List[dict],
+    rows: list[dict],
 ) -> int:
     """Upsert candle rows, ignoring conflicts on (pair, timeframe, open_time)."""
     if not rows:
@@ -52,7 +50,6 @@ async def upsert_candles(
     )
     result = await session.execute(stmt)
     return result.rowcount or 0
-
 
 class Ingester:
     """Fetches OHLCV data from Kraken and persists it in the database.

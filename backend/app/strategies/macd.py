@@ -9,7 +9,6 @@ import pandas as pd
 from app.indicators.technical import compute_macd
 from app.strategies.base import Signal, Strategy, StrategyResult
 
-
 class MACDStrategy(Strategy):
     """Signal BUY when MACD crosses above signal and histogram is positive.
 

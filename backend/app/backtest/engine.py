@@ -7,7 +7,7 @@ Replays historical OHLCV candles and simulates paper trading.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Dict, List, Optional
+from typing import TYPE_CHECKING, Optional
 
 import numpy as np
 import pandas as pd
@@ -21,19 +21,17 @@ if TYPE_CHECKING:
 
 log = structlog.get_logger(__name__)
 
-
 @dataclass
 class BacktestResult:
     """Results from a completed backtest run."""
 
-    trades: List[dict] = field(default_factory=list)
+    trades: list[dict] = field(default_factory=list)
     metrics: Dict = field(default_factory=dict)
-    equity_curve: List[dict] = field(default_factory=list)
-
+    equity_curve: list[dict] = field(default_factory=list)
 
 def _compute_metrics(
-    trades: List[dict],
-    equity_curve: List[dict],
+    trades: list[dict],
+    equity_curve: list[dict],
     initial_balance: float,
     df: pd.DataFrame,
 ) -> dict:
@@ -116,7 +114,6 @@ def _compute_metrics(
         "total_trades": len(trades),
     }
 
-
 class BacktestEngine:
     """Deterministic candle-by-candle replay engine.
 
@@ -157,7 +154,7 @@ class BacktestEngine:
         broker = PaperBroker(
             self.initial_balance, self.taker_fee, self.maker_fee, self.slippage_bps
         )
-        completed_trades: List[dict] = []  # only closed round-trips
+        completed_trades: list[dict] = []  # only closed round-trips
 
         # Reset equity curve so we only capture this run
         broker.equity_curve.clear()

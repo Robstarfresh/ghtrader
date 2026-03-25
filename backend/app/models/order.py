@@ -12,7 +12,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
-
 class Order(Base):
     """Simulated paper order."""
 
@@ -43,7 +42,6 @@ class Order(Base):
 
     def __repr__(self) -> str:
         return f"<Order id={self.id} {self.side} {self.quantity} {self.pair} status={self.status}>"
-
 
 class Fill(Base):
     """Individual fill event for a paper order."""

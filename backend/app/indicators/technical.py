@@ -10,16 +10,13 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-
 def compute_ema(close: pd.Series, period: int = 20) -> pd.Series:
     """Exponential moving average."""
     return close.ewm(span=period, adjust=False).mean()
 
-
 def compute_sma(close: pd.Series, period: int = 20) -> pd.Series:
     """Simple moving average."""
     return close.rolling(window=period).mean()
-
 
 def compute_macd(
     close: pd.Series,
@@ -40,7 +37,6 @@ def compute_macd(
         {"macd": macd_line, "signal": signal_line, "histogram": histogram},
         index=close.index,
     )
-
 
 def compute_rsi(close: pd.Series, period: int = 14) -> pd.Series:
     """Relative Strength Index (Wilder's smoothing).
@@ -66,7 +62,6 @@ def compute_rsi(close: pd.Series, period: int = 14) -> pd.Series:
     # First bar is NaN (delta.diff() → NaN); fill with neutral 50
     return result.where(~(gain.isna() & loss.isna()), other=np.nan).fillna(50)
 
-
 def compute_vwap(
     high: pd.Series,
     low: pd.Series,
@@ -81,7 +76,6 @@ def compute_vwap(
     cumulative_tpv = (typical_price * volume).cumsum()
     cumulative_vol = volume.cumsum()
     return cumulative_tpv / cumulative_vol.replace(0, np.nan)
-
 
 def compute_atr(
     high: pd.Series,
@@ -101,7 +95,6 @@ def compute_atr(
     ).max(axis=1)
     return tr.ewm(alpha=1 / period, adjust=False).mean()
 
-
 def compute_bollinger(
     close: pd.Series,
     period: int = 20,
@@ -117,11 +110,9 @@ def compute_bollinger(
     lower = mid - std_dev * std
     return pd.DataFrame({"upper": upper, "mid": mid, "lower": lower}, index=close.index)
 
-
 def compute_rolling_high(close: pd.Series, period: int = 20) -> pd.Series:
     """Rolling maximum of close prices over *period* bars."""
     return close.rolling(window=period).max()
-
 
 def compute_rolling_low(close: pd.Series, period: int = 20) -> pd.Series:
     """Rolling minimum of close prices over *period* bars."""

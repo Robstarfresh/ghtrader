@@ -9,12 +9,11 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime, timezone
-from typing import Dict, List, Optional
+from typing import Optional
 
 import structlog
 
 log = structlog.get_logger(__name__)
-
 
 class PaperBroker:
     """Simulated paper execution engine.
@@ -37,9 +36,9 @@ class PaperBroker:
         self.slippage_bps = slippage_bps
 
         self.balance: float = initial_balance
-        self.positions: Dict[str, dict] = {}
-        self.trade_log: List[dict] = []
-        self.equity_curve: List[dict] = []
+        self.positions: dict[str, dict] = {}
+        self.trade_log: list[dict] = []
+        self.equity_curve: list[dict] = []
         self._daily_start_equity: float = initial_balance
 
         # Record initial equity point
@@ -155,7 +154,7 @@ class PaperBroker:
         log.info("paper_position_closed", pair=pair, pnl=pnl, reason=reason)
         return result
 
-    def update_prices(self, prices: Dict[str, float]) -> None:
+    def update_prices(self, prices: dict[str, float]) -> None:
         """Update current prices, recalculate unrealised PnL, check stops.
 
         ⚠️  PAPER TRADING ONLY.
@@ -204,7 +203,7 @@ class PaperBroker:
 
         self._record_equity()
 
-    def get_positions(self) -> List[dict]:
+    def get_positions(self) -> list[dict]:
         """Return list of current open positions."""
         return list(self.positions.values())
 

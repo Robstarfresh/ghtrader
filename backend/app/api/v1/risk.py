@@ -10,7 +10,6 @@ from app.api.v1.engine import _engine_ref
 
 router = APIRouter()
 
-
 @router.get("/status")
 async def risk_status() -> dict:
     """Return current risk state and kill switch status."""
@@ -30,7 +29,6 @@ async def risk_status() -> dict:
         "open_positions": len(broker.positions),
         "mode": "paper_trading",
     }
-
 
 @router.post("/reset")
 async def reset_risk() -> dict:

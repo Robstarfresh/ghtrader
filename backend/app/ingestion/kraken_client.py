@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import asyncio
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import httpx
 import structlog
@@ -16,7 +16,7 @@ from app.config import get_settings
 log = structlog.get_logger(__name__)
 
 # Kraken pair name normalisation: friendly -> Kraken internal
-_PAIR_MAP: Dict[str, str] = {
+_PAIR_MAP: dict[str, str] = {
     "XBT/USD": "XBTUSD",
     "BTC/USD": "XBTUSD",
     "ETH/USD": "ETHUSD",
@@ -28,7 +28,7 @@ _PAIR_MAP: Dict[str, str] = {
 }
 
 # Kraken OHLC interval codes (minutes)
-_INTERVAL_MAP: Dict[str, int] = {
+_INTERVAL_MAP: dict[str, int] = {
     "1m": 1,
     "5m": 5,
     "15m": 15,
@@ -39,16 +39,13 @@ _INTERVAL_MAP: Dict[str, int] = {
     "1w": 10080,
 }
 
-
 def _to_kraken_pair(pair: str) -> str:
     """Map a friendly pair name to the Kraken API pair code."""
     return _PAIR_MAP.get(pair.upper(), pair.replace("/", "").upper())
 
-
 def _to_interval(timeframe: str) -> int:
     """Convert a timeframe string to Kraken interval minutes."""
     return _INTERVAL_MAP.get(timeframe, 1)
-
 
 class KrakenClient:
     """Async client for the Kraken public REST API.
@@ -76,7 +73,7 @@ class KrakenClient:
         if self._client and not self._client.is_closed:
             await self._client.aclose()
 
-    async def _request(self, path: str, params: Dict[str, Any], retries: int = 3) -> Dict:
+    async def _request(self, path: str, params: dict[str, Any], retries: int = 3) -> Dict:
         """Perform a GET request with exponential back-off on failure."""
         client = await self._get_client()
         delay = 1.0
@@ -108,13 +105,13 @@ class KrakenClient:
         pair: str,
         interval_minutes: int = 1,
         since: Optional[int] = None,
-    ) -> List[List]:
+    ) -> list[List]:
         """Fetch OHLCV candles from Kraken.
 
         Returns a list of rows: [timestamp, open, high, low, close, vwap, volume, trades]
         """
         kraken_pair = _to_kraken_pair(pair)
-        params: Dict[str, Any] = {"pair": kraken_pair, "interval": interval_minutes}
+        params: dict[str, Any] = {"pair": kraken_pair, "interval": interval_minutes}
         if since is not None:
             params["since"] = since
 
@@ -126,10 +123,10 @@ class KrakenClient:
             (k for k in result if k != "last"),
             kraken_pair,
         )
-        candles: List[List] = result.get(candle_key, [])
+        candles: list[List] = result.get(candle_key, [])
         return candles
 
-    async def get_ticker(self, pair: str) -> Dict[str, Any]:
+    async def get_ticker(self, pair: str) -> dict[str, Any]:
         """Fetch current ticker for a pair."""
         kraken_pair = _to_kraken_pair(pair)
         result = await self._request("/0/public/Ticker", {"pair": kraken_pair})

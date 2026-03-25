@@ -4,8 +4,6 @@
 """
 from __future__ import annotations
 
-from typing import List
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -16,13 +14,11 @@ from app.schemas.strategy import StrategyCreate, StrategyOut, StrategyUpdate
 
 router = APIRouter()
 
-
-@router.get("", response_model=List[StrategyOut])
-async def list_strategies(session: AsyncSession = Depends(get_session)) -> List[StrategyOut]:
+@router.get("", response_model=list[StrategyOut])
+async def list_strategies(session: AsyncSession = Depends(get_session)) -> list[StrategyOut]:
     """List all registered strategy configurations."""
     result = await session.execute(select(Strategy).order_by(Strategy.id))
     return list(result.scalars().all())
-
 
 @router.post("", response_model=StrategyOut, status_code=status.HTTP_201_CREATED)
 async def create_strategy(
@@ -35,7 +31,6 @@ async def create_strategy(
     await session.flush()
     await session.refresh(strategy)
     return strategy
-
 
 @router.patch("/{strategy_id}", response_model=StrategyOut)
 async def update_strategy(

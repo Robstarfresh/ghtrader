@@ -10,7 +10,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
-
 class Strategy(Base):
     """Persisted strategy configuration.
 
@@ -34,7 +33,6 @@ class Strategy(Base):
 
     def __repr__(self) -> str:
         return f"<Strategy name={self.name} active={self.is_active}>"
-
 
 class StrategyRun(Base):
     """Records a strategy execution window."""

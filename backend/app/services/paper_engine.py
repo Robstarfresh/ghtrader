@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import asyncio
 from datetime import datetime, timezone
-from typing import List, Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 import structlog
 from sqlalchemy import select
@@ -29,7 +29,6 @@ log = structlog.get_logger(__name__)
 
 _CYCLE_INTERVAL_SECONDS = 60  # 1-minute default
 
-
 class PaperEngine:
     """Orchestrates ingestion + signal generation + paper execution.
 
@@ -48,7 +47,7 @@ class PaperEngine:
         session_factory,  # async_sessionmaker
         broker: "PaperBroker",
         risk_manager: "RiskManager",
-        strategies: List["Strategy"],
+        strategies: list["Strategy"],
     ) -> None:
         self._config = config
         self._session_factory = session_factory

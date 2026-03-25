@@ -9,7 +9,6 @@ import pandas as pd
 from app.indicators.technical import compute_vwap
 from app.strategies.base import Signal, Strategy, StrategyResult
 
-
 class VWAPStrategy(Strategy):
     """BUY when price crosses above VWAP with volume confirmation.
 

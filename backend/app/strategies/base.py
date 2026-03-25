@@ -11,12 +11,10 @@ from typing import Optional
 
 import pandas as pd
 
-
 class Signal(Enum):
     BUY = "buy"
     SELL = "sell"
     HOLD = "hold"
-
 
 @dataclass
 class StrategyResult:
@@ -27,7 +25,6 @@ class StrategyResult:
     reason: str
     stop_loss_pct: Optional[float] = None
     take_profit_pct: Optional[float] = None
-
 
 class Strategy(ABC):
     """Abstract strategy interface.

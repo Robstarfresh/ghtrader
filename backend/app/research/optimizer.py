@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from itertools import product
-from typing import Any, Callable, Dict, Generator, List, Tuple, Type
+from typing import Any, Callable, Generator
 
 import pandas as pd
 import structlog
@@ -15,13 +15,11 @@ from app.strategies.base import Strategy
 
 log = structlog.get_logger(__name__)
 
-
-def _generate_param_combinations(param_grid: Dict[str, List[Any]]) -> Generator[dict, None, None]:
+def _generate_param_combinations(param_grid: dict[str, list[Any]]) -> Generator[dict, None, None]:
     """Yield every combination of parameter values from *param_grid*."""
     keys = list(param_grid.keys())
     for values in product(*param_grid.values()):
         yield dict(zip(keys, values))
-
 
 class Optimizer:
     """Grid-search parameter optimizer.
@@ -34,8 +32,8 @@ class Optimizer:
 
     def __init__(
         self,
-        strategy_cls: Type[Strategy],
-        param_grid: Dict[str, List[Any]],
+        strategy_cls: type[Strategy],
+        param_grid: dict[str, list[Any]],
         initial_balance: float = 100_000.0,
         taker_fee: float = 0.0026,
         maker_fee: float = 0.0016,
@@ -54,7 +52,7 @@ class Optimizer:
         self,
         df: pd.DataFrame,
         pair: str,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Execute the parameter sweep.
 
         Returns a list of result dicts (params + metrics), sorted by
@@ -68,7 +66,7 @@ class Optimizer:
             pair=pair,
         )
 
-        results: List[Dict[str, Any]] = []
+        results: list[dict[str, Any]] = []
         for i, params in enumerate(combinations, start=1):
             try:
                 strategy = self.strategy_cls(**params)

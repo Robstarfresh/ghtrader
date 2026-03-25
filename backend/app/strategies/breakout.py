@@ -9,7 +9,6 @@ import pandas as pd
 from app.indicators.technical import compute_rolling_high, compute_rolling_low
 from app.strategies.base import Signal, Strategy, StrategyResult
 
-
 class BreakoutStrategy(Strategy):
     """BUY when close breaks above the prior N-bar high.
 

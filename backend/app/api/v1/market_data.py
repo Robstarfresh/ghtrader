@@ -4,8 +4,6 @@
 """
 from __future__ import annotations
 
-from typing import List
-
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -17,9 +15,8 @@ from app.schemas.candle import CandleOut
 
 router = APIRouter()
 
-
 @router.get("/pairs")
-async def list_pairs() -> List[dict]:
+async def list_pairs() -> list[dict]:
     """Return tracked trading pairs and their configuration."""
     settings = get_settings()
     return [
@@ -27,14 +24,13 @@ async def list_pairs() -> List[dict]:
         for pair in settings.tracked_pairs_list
     ]
 
-
-@router.get("/candles/{pair}", response_model=List[CandleOut])
+@router.get("/candles/{pair}", response_model=list[CandleOut])
 async def get_candles(
     pair: str,
     timeframe: str = Query(default="1m"),
     limit: int = Query(default=200, ge=1, le=1000),
     session: AsyncSession = Depends(get_session),
-) -> List[CandleOut]:
+) -> list[CandleOut]:
     """Return the most recent candles for a given pair and timeframe."""
     result = await session.execute(
         select(Candle)

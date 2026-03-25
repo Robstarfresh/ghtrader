@@ -5,7 +5,7 @@
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Tuple
+from typing import TYPE_CHECKING
 
 import structlog
 
@@ -14,7 +14,6 @@ if TYPE_CHECKING:
     from app.config import Settings
 
 log = structlog.get_logger(__name__)
-
 
 class RiskManager:
     """Enforces paper trading risk controls.
@@ -51,7 +50,7 @@ class RiskManager:
         quantity: float,
         price: float,
         broker: "PaperBroker",
-    ) -> Tuple[bool, str]:
+    ) -> tuple[bool, str]:
         """Validate a proposed trade against all risk controls.
 
         Returns (allowed: bool, reason: str).
