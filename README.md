@@ -6,6 +6,18 @@ A full-stack paper-trading simulation platform for Kraken crypto markets. Real-t
 
 ---
 
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [docs/SETUP.md](docs/SETUP.md) | Step-by-step installation, Docker Compose deployment, environment variable reference, local development setup |
+| [docs/OPERATORS_MANUAL.md](docs/OPERATORS_MANUAL.md) | Day-to-day operations: starting the engine, managing strategies, running backtests, risk controls, monitoring, and troubleshooting |
+| [docs/architecture.md](docs/architecture.md) | Full system architecture, data flow, strategy logic, backtest methodology, database schema |
+| [docs/example-backtest-run.md](docs/example-backtest-run.md) | Example backtest results with metrics and interpretation |
+| [docs/example-strategy-config.json](docs/example-strategy-config.json) | Example combined strategy configuration |
+
+---
+
 ## Architecture
 
 ```
