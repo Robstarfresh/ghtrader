@@ -1,0 +1,73 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: trader
+      POSTGRES_PASSWORD: trader
+      POSTGRES_DB: ghtrader
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trader -d ghtrader"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://trader:trader@db:5432/ghtrader
+      - REDIS_URL=redis://redis:6379/0
+      - KRAKEN_API_BASE=https://api.kraken.com
+      - TRACKED_PAIRS=XBT/USD,ETH/USD,SOL/USD
+      - PRIMARY_TIMEFRAME=1m
+      - PAPER_INITIAL_BALANCE=100000.0
+      - PAPER_TAKER_FEE=0.0026
+      - PAPER_MAKER_FEE=0.0016
+      - PAPER_SLIPPAGE_BPS=5
+      - MAX_CONCURRENT_POSITIONS=5
+      - MAX_DAILY_LOSS_PCT=0.05
+      - RISK_PER_TRADE_PCT=0.02
+      - LOG_LEVEL=INFO
+      - ENV=production
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    command: >
+      sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
