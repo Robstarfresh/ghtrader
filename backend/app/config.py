@@ -26,8 +26,9 @@ class Settings(BaseSettings):
     # Kraken public REST
     KRAKEN_API_BASE: str = "https://api.kraken.com"
 
-    # Tracked trading pairs (comma-separated)
-    TRACKED_PAIRS: str = "XBT/USD,ETH/USD,SOL/USD"
+    # Tracked trading pairs (comma-separated).
+    # Leave blank to let the TokenScanner populate the list automatically.
+    TRACKED_PAIRS: str = ""
 
     # Primary OHLCV timeframe
     PRIMARY_TIMEFRAME: str = "1m"
@@ -46,6 +47,17 @@ class Settings(BaseSettings):
     # Application
     LOG_LEVEL: str = "INFO"
     ENV: str = "development"
+
+    # Token scanner
+    MIN_VOLUME_24H_USD: float = 100_000.0   # minimum 24 h USD volume for a pair
+    SCANNER_INTERVAL_SECONDS: int = 3600    # how often to re-scan for tokens (1 h)
+    SCANNER_REQUIRE_MOMENTUM: bool = True   # only include rising tokens
+
+    # ML trainer / win-rate gate
+    WIN_RATE_ENABLE_THRESHOLD: float = 0.60   # turn ON live trading above this
+    WIN_RATE_DISABLE_THRESHOLD: float = 0.50  # turn OFF live trading below this
+    ML_LOOKBACK_TRADES: int = 30              # rolling window for win-rate calc
+    ML_MIN_TRADES_FOR_GATE: int = 10          # min trades before gate activates
 
     @field_validator("TRACKED_PAIRS", mode="before")
     @classmethod
